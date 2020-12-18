@@ -24,7 +24,9 @@ export class EventosComponent implements OnInit {
   ]
   */
 
-  eventos: any;
+  eventos: any = [];
+  imagemLargura = 50;
+  imagemMargem = 2;
 
   constructor(private http: HttpClient) { }
 
