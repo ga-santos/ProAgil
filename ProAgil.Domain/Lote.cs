@@ -18,6 +18,6 @@ namespace ProAgil.Domain
 
         public int EventoId { get; set; }   
 
-        public Evento evento { get; set; }
+        public Evento evento { get; set; } //Um Lote pertence a apenas um evento
     }
 }

@@ -23,6 +23,10 @@ namespace ProAgil.Domain
 
         public string Lote { get; set; }
 
-        public List<Lote> Lotes { get; set; }
+        public List<Lote> Lotes { get; set; } //Pode ter lista de lotes
+
+        public List<RedeSocial> RedesSociais { get; set; } //Pode ter lista de redes sociais
+
+        public List<PalestranteEvento> PalestranteEventos { get; set; } //Pode ter lista de palestrantes
     }
 }
