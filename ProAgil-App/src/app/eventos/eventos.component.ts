@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Evento } from '../_models/Evento';
 import { EventoService } from '../_services/evento.service';
 
@@ -26,6 +27,18 @@ export class EventosComponent implements OnInit {
     ]
     */
 
+   constructor(
+     private eventoService: EventoService 
+    ,private modalService: BsModalService
+   ) { } //USA O SERVIÇO AO INVÉS DO HTTP CLIENT DIRETO
+
+   eventos_filtrados!: Evento[];
+   eventos!: Evento[];
+   imagemLargura = 50;
+   imagemMargem = 2;
+   mostrarImagem = false;
+   modalRef!: BsModalRef;
+
   _filtroLista: string = "";
 
   get filtroLista(): string{
@@ -37,6 +50,10 @@ export class EventosComponent implements OnInit {
     this.eventos_filtrados = this.filtroLista ? this.filtrarEvento(this.filtroLista) : this.eventos;
   }
 
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
+  }
+
   filtrarEvento(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLowerCase();  
     return this.eventos.filter(
@@ -44,17 +61,11 @@ export class EventosComponent implements OnInit {
     );
   }
 
-  eventos_filtrados!: Evento[];
-  eventos!: Evento[];
-  imagemLargura = 50;
-  imagemMargem = 2;
-  mostrarImagem = false;
 
   alternarImagem(){
     this.mostrarImagem = !this.mostrarImagem;
   }
 
-  constructor(private eventoService: EventoService) { } //USA O SERVIÇO AO INVÉS DO HTTP CLIENT DIRETO
 
   ngOnInit() {
     this.getEventos();
