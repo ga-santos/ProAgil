@@ -1,4 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Evento } from '../_models/Evento';
 import { EventoService } from '../_services/evento.service';
@@ -32,12 +33,19 @@ export class EventosComponent implements OnInit {
     ,private modalService: BsModalService
    ) { } //USA O SERVIÇO AO INVÉS DO HTTP CLIENT DIRETO
 
+  ngOnInit() {
+    this.validation();
+    this.getEventos();
+  }
+
    eventos_filtrados!: Evento[];
    eventos!: Evento[];
    imagemLargura = 50;
    imagemMargem = 2;
    mostrarImagem = false;
    modalRef!: BsModalRef;
+
+  registerForm!: FormGroup;
 
   _filtroLista: string = "";
 
@@ -61,15 +69,31 @@ export class EventosComponent implements OnInit {
     );
   }
 
+  // ------------------------ FORMULÁRIO --------------------------
+  // VALIDAÇÃO DO FORMULÁRIO
+  validation(){
+    this.registerForm = new FormGroup({ //CADA UM DOS ITENS CORRESPONDE A UM CAMPO QUE TEM UM FORM CONTROL NAME COM O VALOR
+      tema: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      local: new FormControl('', Validators.required),
+      dataEvento: new FormControl('', Validators.required),
+      imagemURL: new FormControl('', Validators.required),
+      qtdPessoas: new FormControl('', [Validators.required, Validators.maxLength(120000)]),
+      telefone: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email])
+    })
+  }
+
+  salvarAlteracao(){
+
+  }
+  // ------------------------ FORMULÁRIO --------------------------
 
   alternarImagem(){
     this.mostrarImagem = !this.mostrarImagem;
   }
 
 
-  ngOnInit() {
-    this.getEventos();
-  }
+
 
   getEventos(){
     //USA O MÉTODO DO SERVICE

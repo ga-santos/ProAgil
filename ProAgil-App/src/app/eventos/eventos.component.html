@@ -95,3 +95,93 @@
   This is a modal.
 </div>
 </ng-template>
+
+
+<!-- ----------------------- ESTRUTURA DO FORMULARIO ------------------------- -->
+
+<form [formGroup]="registerForm"> <!-- Adiciona no app module o provider nos imports -->
+
+  <div class="form-row"> 
+    <div class="form-group col-md-12"> <!-- SEMPRE QUE TRABALHAR COM FORM-ROW TEM QUE INFORMAR TAMANHO DA DIV (12 COLUNAS)-->
+      <label>Tema</label>
+      
+      <!--  O ngClass serve para inserir uma propriedade na classe baseado em uma condição do formulário -->
+      <input type="text" class="form-control"
+      [ngClass]="{'is-invalid': registerForm.get('tema').errors && registerForm.get('tema').touched}" 
+       formControlName = "tema" placeholder=" Insira o Tema"> <!-- mesmo nome do Evento.ts --> 
+      
+      <!-- mensagem para a obrigatoriedade do campo -->
+      <div *ngIf="registerForm.get('tema').hasError('required') && registerForm.get('tema').touched" class="invalid-feedback"> 
+        Tema é obrigatório.
+      </div>
+      <div *ngIf="registerForm.get('tema').hasError('minlength') && registerForm.get('tema').touched" class="invalid-feedback"> 
+        Tema deve ter no mínimo 4 caracters.
+      </div>
+      <div *ngIf="registerForm.get('tema').hasError('maxlength') && registerForm.get('tema').touched" class="invalid-feedback">
+        Tema deve ter no máximo 50 caracters.
+      </div>
+
+    </div>
+  </div>  
+
+  <div class="form-row">  <!-- DIVIDIMOS ENTRE 2 DIVS NESSE CASO (8 COLUNAS E 4 COLUNAS) -->
+    <div class="form-group col-md-8">
+      <label>Local</label>
+      <input type="text" class="form-control is-invalid" formControlName = "local">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Local é obrigatório.
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Data e Hora</label>
+      <input type="text" class="form-control is-invalid" formControlName = "dataEvento">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Data e hora é obrigatório.
+      </div>
+    </div>
+  </div> 
+
+  <div class="form-row">
+    <div class="form-group col-md-3">
+      <label>Qtd Pessoas</label>
+      <input type="text" class="form-control is-invalid" formControlName = "qtdPessoas">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Quantidade de pessoas é obrigatória.
+      </div>
+    </div>
+    <div class="form-group col-md-9">
+      <label>Imagem</label>
+      <input type="text" class="form-control is-invalid" formControlName = "imagemURL">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Imagem é obrigatória.
+      </div>
+    </div>
+  </div> 
+
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Telefone</label>
+      <input type="text" class="form-control is-invalid" formControlName = "telefone" placeholder="">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Telefone é obrigatório.
+      </div>
+    </div>
+    <div class="form-group col-md-8">
+      <label>Email</label>
+      <input type="text" class="form-control is-invalid" formControlName = "email" placeholder="">
+      <div class="invalid-feedback"> <!-- mensagem para a obrigatoriedade do campo -->
+        Email é obrigatório.
+      </div>
+    </div>
+  </div> 
+
+</form>
+<br>
+<button class="btn btn-secondary" (click)="openModal(template)">
+  Fechar
+</button>
+<button class="btn btn-primary" (click)="salvarAlteracao()">
+  Salvar Alterações
+</button>
+<br>
+<br>

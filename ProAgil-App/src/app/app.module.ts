@@ -5,7 +5,7 @@ import {HttpClientModule} from '@angular/common/http'
 import { ModalModule} from 'ngx-bootstrap/modal';
 import { TooltipModule} from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations' // CORRIGE DROPDOWN MENU
 
@@ -32,7 +32,8 @@ import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
     BsDropdownModule.forRoot(), //NGX-BOOTSTRAP
     TooltipModule.forRoot(), //NGX-BOOTSTRAP
     ModalModule.forRoot(), //NGX-BOOTSTRAP
-    BrowserAnimationsModule // CORRIGE DROPDOWN MENU
+    BrowserAnimationsModule, // CORRIGE DROPDOWN MENU
+    ReactiveFormsModule // ATIVA O FORMS 
   ],
   providers: [
     EventoService // serviço
