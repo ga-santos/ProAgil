@@ -91,7 +91,7 @@ namespace ProAgil.API.Controllers
         // --------------------- PUT ----------------------
 
         // ATUALIZA O EVENTO
-        [HttpPut]
+        [HttpPut("{EventoId}")]
         public async Task<IActionResult> Put(int EventoId, Evento model)
         {
             try
@@ -103,7 +103,7 @@ namespace ProAgil.API.Controllers
                _repo.Update(model);
 
                if(await _repo.SaveChangeASync()){ //Precisa ser assincrono pra salvar a mudança de estado
-                    return Created($"/api/evento/{model}", model);
+                    return Created($"/api/evento/{model.Id}", model);
                }
                
             }
@@ -119,7 +119,7 @@ namespace ProAgil.API.Controllers
 
         // --------------------- DELETE ----------------------
 
-        [HttpDelete]
+        [HttpDelete("{EventoId}")]
         public async Task<IActionResult> Delete(int EventoId)
         {
             try
@@ -128,7 +128,7 @@ namespace ProAgil.API.Controllers
                 var evento = await _repo.GetEventoAsyncById(EventoId, false);
                 if(evento == null) return NotFound();
 
-               _repo.Update(evento);
+               _repo.Delete(evento);
 
                if(await _repo.SaveChangeASync()){ //Precisa ser assincrono pra salvar a mudança de estado
                     return Ok();

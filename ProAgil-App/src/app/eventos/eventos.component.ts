@@ -1,8 +1,16 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Evento } from '../_models/Evento';
 import { EventoService } from '../_services/evento.service';
+
+// DATA E HORA CONFIGURAÇÃO
+import { BsLocaleService } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale } from 'ngx-bootstrap/locale';
+import { templateJitUrl } from '@angular/compiler';
+
+defineLocale('pt-br', ptBrLocale)
 
 @Component({
   selector: 'app-eventos',
@@ -11,7 +19,6 @@ import { EventoService } from '../_services/evento.service';
   // ,providers: [EventoService]
 })
 export class EventosComponent implements OnInit {
-
     
     /*
     eventos: any = [
@@ -32,7 +39,10 @@ export class EventosComponent implements OnInit {
      private eventoService: EventoService 
     ,private modalService: BsModalService
     ,private fb: FormBuilder
-   ) { } //USA O SERVIÇO AO INVÉS DO HTTP CLIENT DIRETO
+    ,private localeService: BsLocaleService
+   ) {
+     this.localeService.use('pt-br');
+    } //USA O SERVIÇO AO INVÉS DO HTTP CLIENT DIRETO
 
   ngOnInit() {
     this.validation();
@@ -41,10 +51,15 @@ export class EventosComponent implements OnInit {
 
    eventos_filtrados!: Evento[];
    eventos!: Evento[];
+   evento: Evento;
    imagemLargura = 50;
    imagemMargem = 2;
    mostrarImagem = false;
    modalRef!: BsModalRef;
+
+   modoSalvar = 'post'
+
+   bodyDeletarEvento = '';
 
   registerForm!: FormGroup;
 
@@ -59,10 +74,6 @@ export class EventosComponent implements OnInit {
     this.eventos_filtrados = this.filtroLista ? this.filtrarEvento(this.filtroLista) : this.eventos;
   }
 
-  openModal(template: TemplateRef<any>){
-    this.modalRef = this.modalService.show(template);
-  }
-
   filtrarEvento(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLowerCase();  
     return this.eventos.filter(
@@ -70,7 +81,7 @@ export class EventosComponent implements OnInit {
     );
   }
 
-  // ------------------------ FORMULÁRIO --------------------------
+  // ------------------------ INICIO FORMULÁRIO --------------------------
   // VALIDAÇÃO DO FORMULÁRIO
   validation(){
     this.registerForm = this.fb.group({ //CADA UM DOS ITENS CORRESPONDE A UM CAMPO QUE TEM UM FORM CONTROL NAME COM O VALOR
@@ -84,10 +95,70 @@ export class EventosComponent implements OnInit {
     })
   }
 
-  salvarAlteracao(){
-
+  // ABRE TEMPLATE DO MODAL
+  openModal(template: any){
+    this.registerForm.reset();
+    template.show();
   }
-  // ------------------------ FORMULÁRIO --------------------------
+
+  novoEvento(template: any){
+    this.modoSalvar = 'post'
+    this.openModal(template);
+  }
+  
+  editarEvento(evento: Evento, template: any){
+    this.modoSalvar = 'put'
+    this.openModal(template);
+    this.evento = evento;
+    this.registerForm.patchValue(evento); // PASSA TODO EVENTO PARA O FORMULÁRIO
+  }
+
+  // INSERÇÃO DOS DADOS NO BANCO DE DADOS
+  salvarAlteracao(template: any){
+    if(this.registerForm.valid){
+
+        if(this.modoSalvar == 'post'){
+          this.evento = Object.assign({}, this.registerForm.value);
+          this.eventoService.postEvento(this.evento).subscribe(
+            (novoEvento: any) => {
+              console.log(novoEvento);
+              template.hide();
+              this.getEventos();
+            }, error => {
+              console.log(error);
+            }
+          );
+        }else{
+          this.evento = Object.assign({id: this.evento.id}, this.registerForm.value); //com o ID atribui o evento exato
+          this.eventoService.putEvento(this.evento).subscribe(
+            () => {
+              template.hide();
+              this.getEventos();
+            }, error => {
+              console.log(error);
+            }
+          );
+        }
+    }
+  }
+
+  excluirEvento(evento: Evento, template: any) {
+    this.openModal(template);
+    this.evento = evento;
+    this.bodyDeletarEvento = `Tem certeza que deseja excluir o Evento: ${evento.tema}, Código: ${evento.id}`;
+  }
+  
+  confirmeDelete(template: any) {
+    this.eventoService.deleteEvento(this.evento.id).subscribe(
+      () => {
+          template.hide();
+          this.getEventos();
+        }, error => {
+          console.log(error);
+        }
+    );
+  }
+  // ------------------------ FINAL FORMULÁRIO --------------------------
 
   alternarImagem(){
     this.mostrarImagem = !this.mostrarImagem;

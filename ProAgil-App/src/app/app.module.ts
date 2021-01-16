@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http'
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule} from 'ngx-bootstrap/modal';
 import { TooltipModule} from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -30,6 +31,7 @@ import { DateTimeFormatPipePipe } from './_helps/DateTimeFormatPipe.pipe';
     HttpClientModule,
     FormsModule,
     BsDropdownModule.forRoot(), //NGX-BOOTSTRAP
+    BsDatepickerModule.forRoot(), //NGX-BOOTSTRAP
     TooltipModule.forRoot(), //NGX-BOOTSTRAP
     ModalModule.forRoot(), //NGX-BOOTSTRAP
     BrowserAnimationsModule, // CORRIGE DROPDOWN MENU
