@@ -4054,11 +4054,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\ProAgil.Repository.csproj",
+      "projectUniqueName": "c:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\ProAgil.Repository.csproj",
       "projectName": "ProAgil.Repository",
-      "projectPath": "C:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\ProAgil.Repository.csproj",
+      "projectPath": "c:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\ProAgil.Repository.csproj",
       "packagesPath": "C:\\Users\\doutr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\obj\\",
+      "outputPath": "c:\\Users\\doutr\\Desktop\\Web\\ProAgil.Repository\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4077,8 +4077,8 @@
       "frameworks": {
         "netstandard2.0": {
           "projectReferences": {
-            "C:\\Users\\doutr\\Desktop\\Web\\ProAgil.Domain\\ProAgil.Domain.csproj": {
-              "projectPath": "C:\\Users\\doutr\\Desktop\\Web\\ProAgil.Domain\\ProAgil.Domain.csproj"
+            "c:\\Users\\doutr\\Desktop\\Web\\ProAgil.Domain\\ProAgil.Domain.csproj": {
+              "projectPath": "c:\\Users\\doutr\\Desktop\\Web\\ProAgil.Domain\\ProAgil.Domain.csproj"
             }
           }
         }
